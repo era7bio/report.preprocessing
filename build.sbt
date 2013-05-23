@@ -16,7 +16,7 @@ scalaVersion := "2.10.1"
 
 publishMavenStyle := false
 
-publishTo <<= version { (v: String) =>
+publishTo <<= version in ThisBuild { (v: String) =>
   if (v.trim.endsWith("-SNAPSHOT")) {
         Some(Resolver.file("local-snapshots", file("artifacts/snapshots.era7.com")))
   } else {
