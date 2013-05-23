@@ -10,7 +10,7 @@ import sbtrelease.ReleasePlugin.ReleaseKeys._
 object preprocessingBuild extends Build {
 
   lazy val preprocessing = Project(
-    id = "preprocessing",
+    id = "report-preprocessing",
     base = file("."),
     settings = Defaults.defaultSettings ++ releaseSettings ++ Seq(
 

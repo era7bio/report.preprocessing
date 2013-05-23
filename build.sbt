@@ -4,7 +4,7 @@ import ReleaseStateTransformations._
 
 import preprocessingBuild._
 
-name := "template.preprocessing"
+name := "template-preprocessing"
 
 organization := "era7"
 
