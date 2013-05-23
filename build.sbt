@@ -16,9 +16,9 @@ publishMavenStyle := false
 
 publishTo <<= version { (v: String) =>
   if (v.trim.endsWith("-SNAPSHOT")) {
-        Some(Resolver.file("local-snapshots", file("artifacts/snapshots.era7.com")))
+        Some(Resolver.file("local-snapshots", file("artifacts/snapshots.era7.com"))(Resolver.ivyStylePatterns))
   } else {
-    Some(Resolver.file("local-releases", file("artifacts/releases.era7.com")))
+    Some(Resolver.file("local-releases", file("artifacts/releases.era7.com"))(Resolver.ivyStylePatterns))
   }
 }
 
