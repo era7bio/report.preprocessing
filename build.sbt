@@ -14,13 +14,14 @@ scalaVersion := "2.10.1"
 
 // crossScalaVersions := Seq("2.10.0.RC1", "2.10.0.RC2")
 
-publishMavenStyle := true
+publishMavenStyle := false
 
 publishTo <<= version { (v: String) =>
-  if (v.trim.endsWith("SNAPSHOT"))
-    Some(Resolver.file("local-snapshots", file("artifacts/snapshots.era7.com")))
-  else
+  if (v.trim.endsWith("-SNAPSHOT")) {
+        Some(Resolver.file("local-snapshots", file("artifacts/snapshots.era7.com")))
+  } else {
     Some(Resolver.file("local-releases", file("artifacts/releases.era7.com")))
+  }
 }
 
 resolvers ++= Seq (
