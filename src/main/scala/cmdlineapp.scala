@@ -104,19 +104,31 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
 
 }
 
-object Main extends App {
+class Main extends xsbti.AppMain {
+  def run(config: xsbti.AppConfiguration) =
+    new Exit(Main.exec(config.arguments))
+}
 
-  val conf = AppConf(args)
+case class Exit(val code: Int) extends xsbti.Exit
 
-  println("prefix: "+ conf.prefix())
-  println("list of input files: "+ conf.input_files())
+object Main {
 
-  // copy template to prefix/
-  val working_path = Path(conf.prefix())
-  working_path.createDirectory(failIfExists = false)
-  val template_path = working_path / template.name
-  println(template_path)
-  template.copyTo(template_path)
+  def exec(args: Array[String]): Int = {
+
+    val conf = AppConf(args)
+
+    println("prefix: "+ conf.prefix())
+    println("list of input files: "+ conf.input_files())
+
+    // copy template to prefix/
+    val working_path = Path(conf.prefix())
+    working_path.createDirectory(failIfExists = false)
+    val template_path = working_path / template.name
+    println(template_path)
+    template.copyTo(template_path)
+
+    0
+  }
 }
 
 
