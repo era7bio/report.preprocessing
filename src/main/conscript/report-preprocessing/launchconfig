@@ -1,0 +1,14 @@
+[app]
+  version: 0.1.0
+  org: era7
+  name: preprocessing_2.10
+  class: era7.template.preprocessing.Main
+  cross-versioned: false
+[scala]
+  version: 2.10.0
+[repositories]
+  local
+  sonatype-oss-releases
+  maven-central
+  era7-releases: http://releases.era7.com.s3.amazonaws.com/
+  era7-snapshots: http://snapshots.era7.com.s3.amazonaws.com/
