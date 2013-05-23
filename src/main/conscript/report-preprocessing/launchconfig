@@ -1,7 +1,7 @@
 [app]
-  version: 0.1.0
+  version: 0.1.0-SNAPSHOT
   org: era7
-  name: preprocessing_2.10
+  name: template-preprocessing_2.10
   class: era7.report.preprocessing.Main
   cross-versioned: false
 [scala]
