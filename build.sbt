@@ -8,15 +8,13 @@ name := "template-preprocessing"
 
 organization := "era7"
 
-version := "0.1.0-SNAPSHOT"
-
 scalaVersion := "2.10.1"
 
 // crossScalaVersions := Seq("2.10.0.RC1", "2.10.0.RC2")
 
 publishMavenStyle := false
 
-publishTo <<= version in ThisBuild { (v: String) =>
+publishTo <<= version { (v: String) =>
   if (v.trim.endsWith("-SNAPSHOT")) {
         Some(Resolver.file("local-snapshots", file("artifacts/snapshots.era7.com")))
   } else {
