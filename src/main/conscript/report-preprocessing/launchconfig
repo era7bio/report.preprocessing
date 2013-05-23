@@ -1,5 +1,5 @@
 [app]
-  version: 0.3.2
+  version: 0.3.3
   org: era7
   name: template-preprocessing_2.10
   class: era7.report.preprocessing.Main
