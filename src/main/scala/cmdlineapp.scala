@@ -1,8 +1,13 @@
 package era7.report.preprocessing
 
+import scala.language.reflectiveCalls
+
 import org.rogach.scallop._
 import scalax.io._
 import scalax.file.Path
+import scalax.file.ImplicitConverters._
+import scala.sys.process._
+
 
 object IOConf {
 
@@ -117,17 +122,27 @@ object Main {
 
     val conf = AppConf(args)
 
-    println("prefix: "+ conf.prefix())
-    println("list of input files: "+ conf.input_files())
+    println("creating dir: "+ conf.prefix())
 
     // copy template to prefix/
     val working_path = Path(conf.prefix())
     working_path.createDirectory(failIfExists = false)
     val template_path = working_path / template.name
-    println(template_path)
+
+    println("copying template to "+ conf.prefix())
     template.copyTo(template_path)
 
-    0
+    val pandoc_cmd = pandoc.cmd(
+                                 output = conf.output(),
+                                 template = template.name,
+                                 template_vars = conf.templateOpts,
+                                 template_listVars = conf.templateListOpts
+                               )
+
+    println("pandoc command to be executed: "+ pandoc_cmd.toString)
+
+    // exec pandoc
+    (Seq("echo", "") #| Process(pandoc_cmd, working_path.asFile, "" -> "")).!
   }
 }
 
@@ -163,7 +178,6 @@ object pandoc {
   }
 
   def cmd(
-            input: String,
             output: String,
             template: String,
             template_vars: List[ScallopOption[String]], 
