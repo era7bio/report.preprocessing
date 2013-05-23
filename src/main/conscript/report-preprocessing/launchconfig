@@ -1,5 +1,5 @@
 [app]
-  version: 0.1.0-SNAPSHOT
+  version: 0.1.0
   org: era7
   name: template-preprocessing_2.10
   class: era7.report.preprocessing.Main
