@@ -1,6 +1,15 @@
-package era7.template.preprocessing
+package era7.report.preprocessing
 
 import org.rogach.scallop._
+import scalax.io._
+import scalax.file.Path
+
+object IOConf {
+
+  implicit val codec = scalax.io.Codec.UTF8
+}
+
+import IOConf._
 
 case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
 
@@ -8,7 +17,7 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
 
   val prefix = opt[String](
                             required = true, short = 'p',
-                            descr = "this is the prefix you used when running prinseq"
+                            descr = "this is the prefix you used when running prinseq. It will be used to identify the dataset"
                           )
 
   val output = opt[String](
@@ -17,15 +26,6 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
                             // this is just the wrapped Option inside ScallopOption
                             // default = prefix.get
                           )
-
-
-
-  val template = opt[String](
-                              required = true, noshort = true,
-                              descr = "template to be applied",
-                              // pandoc will look for this inside your templates folder
-                              default = Some("projects.preprocessing.template")
-                            )
 
   
   // template vals
@@ -108,9 +108,30 @@ object Main extends App {
 
   val conf = AppConf(args)
 
-  conf.printHelp()
   println("prefix: "+ conf.prefix())
-  println("list of input files: "+ conf.input_files( ))
+  println("list of input files: "+ conf.input_files())
+
+  // copy template to prefix/
+  val working_path = Path(conf.prefix())
+  working_path.createDirectory(failIfExists = false)
+  val template_path = working_path / template.name
+  println(template_path)
+  template.copyTo(template_path)
+}
+
+
+
+object template {
+
+  val name = "preprocessing.md.template"
+
+  def copyTo(dest: Path) {
+
+    val in_java: java.io.InputStream = getClass.getResourceAsStream("/"+ name)
+    val in = Resource.fromInputStream(in_java)
+
+    dest.write(in.bytes)
+  }
 }
 
 

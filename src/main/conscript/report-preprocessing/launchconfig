@@ -2,7 +2,7 @@
   version: 0.1.0
   org: era7
   name: preprocessing_2.10
-  class: era7.template.preprocessing.Main
+  class: era7.report.preprocessing.Main
   cross-versioned: false
 [scala]
   version: 2.10.0
