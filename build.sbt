@@ -37,6 +37,7 @@ resolvers <+= sbtResolver
 libraryDependencies ++= Seq (
                               "com.chuusai" %% "shapeless" % "1.2.3",
                               "org.rogach" %% "scallop" % "0.9.1",
+                              "org.json4s" %% "json4s-jackson" % "3.2.4",
                               "com.github.scala-incubator.io" %% "scala-io-core" % "0.4.2",
                               "com.github.scala-incubator.io" %% "scala-io-file" % "0.4.2"
                             )

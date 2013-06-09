@@ -21,18 +21,27 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
   version("preprocessing-report 0.1.0")
 
   val prefix = opt[String](
-                            required = true, short = 'p',
-                            descr = "this is the prefix you used when running prinseq. It will be used to identify the dataset"
-                          )
+    required = true, short = 'p',
+    descr = "the prefix you used for running prinseq"
+  )
+
+  val input = opt[String](
+    required = true, short = 'i',
+    descr = "the folder containing prinseq results (pngs and html report)"
+  )
+
+  val gd = opt[String](
+    required = true, short = 'g',
+    descr = "the .gd file produced by prinseq"
+  )
 
   val output = opt[String](
-                            required = false, short = 'o',
-                            descr = "output file name"
-                            // this is just the wrapped Option inside ScallopOption
-                            // default = prefix.get
-                          )
+    required = true, short = 'o',
+    descr = "output folder"
+    // this is just the wrapped Option inside ScallopOption
+    // default = prefix.get
+  )
 
-  
   // template vals
   val sequencing_provider =  opt[String](
                                           required = true,
@@ -56,16 +65,6 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
                                           descr = "the date on which data was received from the provider"
                                         )
 
-  val total_number_reads = opt[String](
-                                        required = true, noshort = true,
-                                        descr = "the total number of reads, counting from all inputs"
-                                      )
-
-  val total_number_bases = opt[String](
-                                        required = true, noshort = true,
-                                        descr = "the total number of bases, counting from all inputs"
-                                      )
-
   val mean_qual_threshold =  opt[String](
                                           required = true, noshort = true,
                                           descr = "the mean quality score used to filter reads"
@@ -76,36 +75,21 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
                                           descr = "the mean quality score used to trim reads on both ends"
                                         )
 
-  // maybe add here raw report?
+
+
+
 
   val templateOpts =  sequencing_technology :: 
                       sequencing_provider ::
                       reads_type ::
                       data_reception_date :: 
-                      total_number_reads ::
-                      total_number_bases ::
+                      // total_number_reads ::
+                      // total_number_bases ::
                       mean_qual_threshold ::
                       trim_qual_threshold :: Nil
 
-  // template list vals
-  val input_files = opt[List[String]](
-                                        required = true, noshort = true,
-                                        descr = "a list of input files for this data set"
-                                      )
-
-  val input_files_links = opt[List[String]](
-                                             required = true, noshort = true,
-                                             descr = "links for each of the input files"
-                                           )
-
-  validate(input_files, input_files_links) { (a,b) =>
-    if (a.length == b.length) Right(Unit)
-    else Left("number of file links does not match number of files")
-  }
-
-  val templateListOpts =  input_files :: 
-                          input_files_links :: Nil
-
+  // get rid of this, is no longer needed
+  val templateListOpts = Nil
 
 }
 
@@ -121,6 +105,14 @@ object Main {
   def exec(args: Array[String]): Int = {
 
     val conf = AppConf(args)
+
+    // TODO: implement retrieving stuff from gd file
+    //
+    // 1. read values from gd
+    // 2. set corresponding ops
+    // 3. check path to images etc
+    // 4. copy images to out folder
+    // 5. apply template
 
     println("creating dir: "+ conf.prefix())
 
