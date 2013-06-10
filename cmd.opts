@@ -1,0 +1,11 @@
+--prefix 15III 
+--gd 15III/15III_S14_L001_R1_001.fastq.gd
+--input 15III
+--output 15III_report
+--paired_end
+--sequencing_provider lalahalah
+--sequencing_technology illumina
+--data_reception_date 2014-03-14
+--reads_type paired-end
+--mean_qual_threshold 30
+--trim_qual_threshold 30

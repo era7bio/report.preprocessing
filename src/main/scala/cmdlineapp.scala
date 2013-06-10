@@ -3,9 +3,13 @@ package era7.report.preprocessing
 import scala.language.reflectiveCalls
 
 import org.rogach.scallop._
+
 import scalax.io._
-import scalax.file.Path
+import scalax.file._
 import scalax.file.ImplicitConverters._
+import scalax.file.ImplicitConversions._
+import scalax.file.PathSet
+
 import scala.sys.process._
 
 
@@ -42,42 +46,42 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
     // default = prefix.get
   )
 
+  val paired_end = opt[Boolean](
+    required = true, noshort = true,
+    descr = "paired-end reads?"
+  )
   // template vals
   val sequencing_provider =  opt[String](
-                                          required = true,
-                                          descr = "the sequencing provider from which the data comes from",
-                                          noshort = true
-                                        )
+    required = true,
+    descr = "the sequencing provider from which the data comes from",
+    noshort = true
+  )
 
   val sequencing_technology =  opt[String](
-                                            required = true,
-                                            descr = "the sequencing technology used for generating data",
-                                            noshort = true
-                                          )
+    required = true,
+    descr = "the sequencing technology used for generating data",
+    noshort = true
+  )
 
   val reads_type = opt[String](
-                                required = true, noshort = true,
-                                descr = "type of reads (paired-end, single, whatever)"
-                              )
+    required = true, noshort = true,
+    descr = "type of reads (paired-end, single, whatever)"
+  )
 
   val data_reception_date =  opt[String](
-                                          required = true, noshort = true,
-                                          descr = "the date on which data was received from the provider"
-                                        )
+    required = true, noshort = true,
+    descr = "the date on which data was received from the provider"
+  )
 
   val mean_qual_threshold =  opt[String](
-                                          required = true, noshort = true,
-                                          descr = "the mean quality score used to filter reads"
-                                        )
+    required = true, noshort = true,
+    descr = "the mean quality score used to filter reads"
+  )
 
   val trim_qual_threshold =  opt[String](
-                                          required = true, noshort = true,
-                                          descr = "the mean quality score used to trim reads on both ends"
-                                        )
-
-
-
-
+    required = true, noshort = true,
+    descr = "the mean quality score used to trim reads on both ends"
+  )
 
   val templateOpts =  sequencing_technology :: 
                       sequencing_provider ::
@@ -90,7 +94,6 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
 
   // get rid of this, is no longer needed
   val templateListOpts = Nil
-
 }
 
 class Main extends xsbti.AppMain {
@@ -100,11 +103,19 @@ class Main extends xsbti.AppMain {
 
 case class Exit(val code: Int) extends xsbti.Exit
 
+object MainTest extends App {
+
+  Main.exec(args)
+}
+
 object Main {
 
   def exec(args: Array[String]): Int = {
 
+    val reportTemplate: pandoc.Template = pandoc.Template(name = "preprocessing.md.template", from = "markdown", to = "markdown")
     val conf = AppConf(args)
+
+    // create prinseqops from opts
 
     // TODO: implement retrieving stuff from gd file
     //
@@ -114,75 +125,44 @@ object Main {
     // 4. copy images to out folder
     // 5. apply template
 
-    println("creating dir: "+ conf.prefix())
-
-    // copy template to prefix/
-    val working_path = Path(conf.prefix())
-    working_path.createDirectory(failIfExists = false)
-    val template_path = working_path / template.name
-
-    println("copying template to "+ conf.prefix())
-    template.copyTo(template_path)
+    println("setting up output folder")
+    val out = setOutputFolder(conf, reportTemplate)
+    println("copying images to output folder")
+    copyImgs(conf, out)
 
     val pandoc_cmd = pandoc.cmd(
-                                 output = conf.output(),
-                                 template = template.name,
-                                 template_vars = conf.templateOpts,
-                                 template_listVars = conf.templateListOpts
+                                 output = out.name,
+                                 template = reportTemplate,
+                                 templateVars = conf.templateOpts map pandoc.fromOpt,
+                                 templateListVars = conf.templateListOpts map pandoc.fromListOpt
                                )
+
+
 
     println("pandoc command to be executed: "+ pandoc_cmd.toString)
 
     // exec pandoc
-    (Seq("echo", "") #| Process(pandoc_cmd, working_path.asFile, "" -> "")).!
+    (Seq("echo", "") #| Process(pandoc_cmd, FileSystem.default(out.name), "" -> "")).!
+  }
+
+
+  def setOutputFolder(conf: AppConf, template: pandoc.Template): Path = {
+
+    // create output folder
+    val outputF = Path(conf.output())
+    outputF.createDirectory(failIfExists = false)
+    // copy template to output folder
+    ResourceOps.copyTo(template.name, outputF / template.name)
+    outputF
+  }
+
+  def copyImgs(conf: AppConf, path: Path) = {
+
+    val src: Path = Path(conf.input())
+    val imgs = src * "*.png"
+    val cp_path = path.createDirectory(failIfExists = false)
+    imgs.foreach(img => img.copyTo(cp_path / img.name))
   }
 }
 
 
-
-object template {
-
-  val name = "preprocessing.md.template"
-
-  def copyTo(dest: Path) {
-
-    val in_java: java.io.InputStream = getClass.getResourceAsStream("/"+ name)
-    val in = Resource.fromInputStream(in_java)
-
-    dest.write(in.bytes)
-  }
-}
-
-
-// stupid wrapper for pandoc stuff
-object pandoc {
- 
-  val optToPandocVar: ScallopOption[String] => Seq[String] = opt => opt.get match {
-
-    case Some(value) => Seq("--variable", opt.name + "=" + value)
-    case None => Seq.empty
-  }
-  
-  val listOptToPandocVar: ScallopOption[List[String]] => Seq[String] = opt => opt.get match {
-
-    case Some(values) => values flatMap {value => Seq("--variable", opt.name + "=" + value)}
-    case None => Seq.empty
-  }
-
-  def cmd(
-            output: String,
-            template: String,
-            template_vars: List[ScallopOption[String]], 
-            template_listVars: List[ScallopOption[List[String]]]
-          ): Seq[String] =  Seq(
-                                  "pandoc",
-                                  "--from", "markdown",
-                                  "--to", "markdown",
-                                  "--template", template,
-                                  "--out", output
-                                ) ++: 
-                                (template_vars flatMap optToPandocVar) ++:
-                                (template_listVars flatMap listOptToPandocVar)
-
-
-}
