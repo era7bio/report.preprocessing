@@ -46,10 +46,6 @@ case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
     // default = prefix.get
   )
 
-  val paired_end = opt[Boolean](
-    required = true, noshort = true,
-    descr = "paired-end reads?"
-  )
   // template vals
   val sequencing_provider =  opt[String](
     required = true,
@@ -112,28 +108,28 @@ object Main {
 
   def exec(args: Array[String]): Int = {
 
-    val reportTemplate: pandoc.Template = pandoc.Template(name = "preprocessing.md.template", from = "markdown", to = "markdown")
+    val reportTemplate = preprocessingTemplate
     val conf = AppConf(args)
-
-    // create prinseqops from opts
-
-    // TODO: implement retrieving stuff from gd file
-    //
-    // 1. read values from gd
-    // 2. set corresponding ops
-    // 3. check path to images etc
-    // 4. copy images to out folder
-    // 5. apply template
 
     println("setting up output folder")
     val out = setOutputFolder(conf, reportTemplate)
     println("copying images to output folder")
     copyImgs(conf, out)
+    println("copying .gd file")
+    val gdpath = copyGD(conf, out)
+
+    println("parsing .gd file")
+    val gdops = PairedEndPrinseqOps(gdpath)
+
+    
+    val pandocOps = (conf.templateOpts map pandoc.fromOpt) ::: (pandoc.TemplateVar("paired_end", "true") :: Nil)
+
+
 
     val pandoc_cmd = pandoc.cmd(
                                  output = out.name,
                                  template = reportTemplate,
-                                 templateVars = conf.templateOpts map pandoc.fromOpt,
+                                 templateVars = pandocOps,
                                  templateListVars = conf.templateListOpts map pandoc.fromListOpt
                                )
 
@@ -156,12 +152,19 @@ object Main {
     outputF
   }
 
-  def copyImgs(conf: AppConf, path: Path) = {
+  def copyImgs(conf: AppConf, path: Path): Unit = {
 
     val src: Path = Path(conf.input())
     val imgs = src * "*.png"
     val cp_path = path.createDirectory(failIfExists = false)
     imgs.foreach(img => img.copyTo(cp_path / img.name))
+  }
+
+  def copyGD(conf: AppConf, path: Path): Path = {
+
+    val src: Path = Path(conf.gd())
+    val cp_path = path.createDirectory(failIfExists = false)
+    src.copyTo(cp_path / src.name, replaceExisting=true)
   }
 }
 

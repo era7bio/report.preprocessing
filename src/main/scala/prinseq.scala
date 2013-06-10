@@ -86,11 +86,3 @@ case class PairedEndPrinseqOps(gd: Path) {
     sb.toString
   }
 }
-
-object testPrinseq extends App {
-
-  // args(0) = path to gd file
-  val ops = PairedEndPrinseqOps(Path(args(0)))
-  
-  println(ops.summary)
-}

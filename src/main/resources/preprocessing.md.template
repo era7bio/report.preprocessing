@@ -47,7 +47,7 @@ $endif$
 
 #### quality scores
 
-$if(pairedend)$
+$if(paired_end)$
 
 ##### global quality distribution - forward reads
 
@@ -65,7 +65,7 @@ $else$
 
 $endif$
 
-$if(pairedend)$
+$if(paired_end)$
 
 ##### quality scores per read position (%) - forward reads
 
