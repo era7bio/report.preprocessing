@@ -1,25 +1,30 @@
 package era7.report.preprocessing
 
-import pandoc.TemplateVar
+import era7.pandoc._
 
-object preprocessingTemplate extends pandoc.Template(name = "preprocessing.md.template", from = "markdown", to = "markdown") {
+object PreprocessingTemplateOptions { 
 
-  def pairedEndSummaryOpts(s: prinseq.PairedEndSummary): List[TemplateVar] = {
+  type me = PreprocessingTemplate
 
-    TemplateVar("numseqs", s.numseqs.toString) ::
-    TemplateVar("numbases", s.numbases.toString) ::
-    TemplateVar("numseqs2", s.numseqs2.toString) ::
-    TemplateVar("numbases2", s.numbases2.toString) ::
-    TemplateVar("maxlength", s.maxlength.toString) ::
-    TemplateVar("filename1", s.filename1) ::
-    TemplateVar("filename2", s.filename2) :: Nil
-  }
+  case class sequencingProvider(value: String) extends TemplateVar[me]("sequencing_provider", value)
+  case class sequencingTechnology(value: String) extends TemplateVar[me]("sequencing_technology", value)
+  case class trimQualThreshold(value: String) extends TemplateVar[me]("trim_qual_threshold", value)
+  case class meanQualThreshold(value: String) extends TemplateVar[me]("mean_qual_threshold", value)
+  case class readsType(value: String) extends TemplateVar[me]("reads_type", value)
+  case class totalNumberReads(value: String) extends TemplateVar[me]("total_number_reads", value)
+  case class totalNumbeBases(value: String) extends TemplateVar[me]("total_number_bases", value)
+  case class dataReceptionDate(value: String) extends TemplateVar[me]("data_reception_date", value)
 
-  def GCStats1Opts(gc: prinseq.GCStats): List[TemplateVar] = {
+  case class prefix(value: String) extends TemplateVar[me]("prefix", value)
 
-    TemplateVar("gcmin", gc.min.toString) ::
-    TemplateVar("gcmax", gc.max.toString) ::
-    TemplateVar("gcmean", gc.mean) ::
-    TemplateVar("gcstd", gc.std) :: Nil
-  }
+  // should be boolean
+  case class pairedEnd(value: String) extends TemplateVar[me]("paired_end", value)
+  case class preprocessed(value: String) extends TemplateVar[me]("preprocessed", value)
 }
+
+case class PreprocessingTemplate(options: List[TemplateVar[PreprocessingTemplate]]) 
+extends era7.pandoc.Template(
+  name = "preprocessing.md.template",
+  from = markdown,
+  to = markdown
+) {} 

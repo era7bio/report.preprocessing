@@ -13,10 +13,7 @@ import scalax.file.PathSet
 import scala.sys.process._
 
 
-object IOConf {
-
-  implicit val codec = scalax.io.Codec.UTF8
-}
+object IOConf { implicit val codec = scalax.io.Codec.UTF8 }
 
 import IOConf._
 
@@ -113,6 +110,7 @@ object Main {
 
     println("setting up output folder")
     val out = setOutputFolder(conf, reportTemplate)
+
     println("copying images to output folder")
     copyImgs(conf, out)
     println("copying .gd file")

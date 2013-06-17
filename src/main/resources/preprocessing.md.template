@@ -39,7 +39,6 @@ $endif$
 - sequencing provider: $sequencing_provider$
 - sequencing technology: $sequencing_technology$
 - reads type: $reads_type$
-- input file/s: $input-files$
 - total number of reads: $total_number_reads$
 - total number of bases: $total_number_bases$
 
@@ -51,41 +50,32 @@ $if(paired_end)$
 
 ##### global quality distribution - forward reads
 
-![number of reads per mean quality score - forward reads]($prefix$/$prefix$.$prinseq_prefix$_qd3.png)
+![number of reads per mean quality score - forward reads]($prefix$/$prefix$.prinseq-qa_qd3.png)
 
 ##### global quality distribution - reverse reads
 
-![number of reads per mean quality score - reverse reads]($prefix$/$prefix$.$prinseq_prefix$_qd3-2.png)
+![number of reads per mean quality score - reverse reads]($prefix$/$prefix$.prinseq-qa_qd3-2.png)
+
+##### quality scores per read position (%) - forward reads
+
+![quality scores per read position - forward reads]($prefix$/$prefix$.prinseq-qa_qd.png)
+
+##### quality scores per read position (%) - reverse reads
+
+![quality scores per read position - reverse reads]($prefix$/$prefix$.prinseq-qa_qd-2.png)
 
 $else$
 
 ##### global quality distribution
 
-![number of reads per mean quality score]($prefix$/$prefix$.$prinseq_prefix$_qd3.png)
-
-$endif$
-
-$if(paired_end)$
-
-##### quality scores per read position (%) - forward reads
-
-![quality scores per read position - forward reads]($prefix$/$prefix$.$prinseq_prefix$_qd.png)
-
-##### quality scores per read position (%) - reverse reads
-
-![quality scores per read position - reverse reads]($prefix$/$prefix$.$prinseq_prefix$_qd-2.png)
-
-$else$
+![number of reads per mean quality score]($prefix$/$prefix$.prinseq-qa_qd3.png)
 
 ##### quality scores per read position (%)
 
-![quality scores per read position]($prefix$/$prefix$.$prinseq_prefix$_qd.png)
+![quality scores per read position]($prefix$/$prefix$.prinseq-qa_qd.png)
 
 $endif$
 
-##### 
-
-##### 
 
 ### References {#prinseq-refs}
 
