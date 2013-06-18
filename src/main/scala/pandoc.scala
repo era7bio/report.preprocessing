@@ -8,37 +8,26 @@ case object pdf extends PandocFormat
 
 trait PandocTemplateAux {
 
-  type From <: formats.PandocFormat
-  type To <: formats.PandocFormat
-  type TemplateOption <: TemplateVar
+  type From <: PandocFormat
+  type To <: PandocFormat
+  type TemplateOption <: TemplateVarAux
   val name: String
   val from: From
   val to: To
-  val options: List[TemplateOption]
-
-  val cmd: Seq[String]
 }
 
 trait PandocTemplate[
-  From <: formats.PandocFormat,
-  To <: formats.PandocFormat
+  F <: PandocFormat,
+  T <: PandocFormat
 ] extends PandocTemplateAux {
   type From  = F
   type To  = T
 }
 
 abstract class Template[
-  F <: formats.PandocFormat, 
-  T <: formats.PandocFormat
-](val name: String, val from: F, val to: T) extends PandocTemplate[F,T] {
-
-  val cmd = Seq(
-    "--from", from,
-    "--to", to,
-    "--template", name,
-    options flatMap {op => op.cmd}
-  )
-}
+  F <: PandocFormat, 
+  T <: PandocFormat
+](val name: String, val from: F, val to: T) extends PandocTemplate[F,T] {}
 
 // TODO: move this to records?
 trait TemplateVarAux { 
@@ -48,30 +37,24 @@ trait TemplateVarAux {
   val value: String
   val cmd: Seq[String]
 }
-abstract class TemplateVar[T <: PandocTemplateAux](name: String, value: String) { 
+abstract class TemplateVar[T <: PandocTemplateAux](val name: String, val value: String) extends TemplateVarAux { 
   type Template = T 
   val cmd = Seq("--variable", name + "=" + value)
 }
 
-object Ops {
-
-  def applyTo[T <: PandocTemplateAux](template: T, out: String): Seq[String] = 
-    Seq("pandoc", "--out", output) ++: template.cmd
-}
-  
 
 // stupid wrapper for pandoc stuff
 object pandoc {
- 
-  val fromOpt: ScallopOption[String] => TemplateVar = opt => opt.get match {
 
-    case Some(value) => TemplateVar(opt.name, value)
-    case None => TemplateVar("", "")
+  def applyTemplate[T <: PandocTemplateAux](template: T)(options: List[template.TemplateOption], out: String): Seq[String] = {
+
+    val buh: Seq[String] = options flatMap {op => op.cmd}
+
+    Seq("pandoc", "--out", out,
+      "--from", template.from.toString,
+      "--to", template.to.toString,
+      "--template", template.name
+    ) ++ (buh: Seq[String])
   }
-  
-  val fromListOpt: ScallopOption[List[String]] => TemplateListVar = opt => opt.get match {
-
-    case Some(values) => TemplateListVar(opt.name, values)
-    case None => TemplateListVar("", Nil)
-  }                    
+    
 }
