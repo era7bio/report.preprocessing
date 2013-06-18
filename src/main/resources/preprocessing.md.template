@@ -1,5 +1,5 @@
 
-## Input data analysis: $prefix$
+## Input data analysis: **$prefix$**
 
 Here we describe raw reads that were received from the sequencing provider $sequencing_provider$ on $data_reception_date$ as well as the following analysis:
 
@@ -33,7 +33,7 @@ The processed reads of each sample are provided independently in `tar.gz` files.
 The quality of the processed reads was also analyzed using Prinseq. As with the quality analysis of the raw reads, the quality analysis of each sample is provided in independent `tar.gz` files.
 $endif$
 
-### $prefix$: input data description
+### **$prefix$**: input data description
 
 - data received on: $data_reception_date$
 - sequencing provider: $sequencing_provider$
@@ -49,7 +49,7 @@ $endif$
   - `$filename_1$`: $total_number_bases_1$
   - `$filename_2$`: $total_number_bases_2$
 
-### $prefix$: quality analysis
+#### **$prefix$**: quality analysis
 
 The following graphics display the distribution of quality scores across the sample.
 
@@ -57,24 +57,74 @@ The following graphics display the distribution of quality scores across the sam
 
 $if(paired_end)$
 
-![$prefix$: number of reads per mean quality score - forward reads]($prefix$.raw.prinseq-qa_qd3.png)
+![**$prefix$**: _number of reads per mean quality score_ - **forward** reads]($prefix$.raw.prinseq-qa_qd3.png)
 
-![$prefix$: number of reads per mean quality score - reverse reads]($prefix$.raw.prinseq-qa_qd3-2.png)
+![**$prefix$**: _number of reads per mean quality score_ - **reverse** reads]($prefix$.raw.prinseq-qa_qd3-2.png)
 
 \pagebreak
 
-![$prefix$: quality scores per read position - forward reads]($prefix$.raw.prinseq-qa_qd.png)
+![**$prefix$**: _quality scores per read position_ - **forward** reads]($prefix$.raw.prinseq-qa_qd2.png)
 
-![$prefix$: quality scores per read position - reverse reads]($prefix$.raw.prinseq-qa_qd-2.png)
+![**$prefix$**: _quality scores per read position_ - **reverse** reads]($prefix$.raw.prinseq-qa_qd2-2.png)
+
+\pagebreak
+
+![**$prefix$**: _quality scores per read position in %_ - **forward** reads]($prefix$.raw.prinseq-qa_qd.png)
+
+![**$prefix$**: _quality scores per read position in %_  - **reverse** reads]($prefix$.raw.prinseq-qa_qd-2.png)
+
+\pagebreak
+
+
+![**$prefix$**: _number of sequences per number of `N`s in %_ - **forward** reads]($prefix$.raw.prinseq-qa_ns.png)
+
+![**$prefix$**: _number of sequences per number of `N`s in %_ - **reverse** reads]($prefix$.raw.prinseq-qa_ns-2.png)
 
 \pagebreak
 
 $else$
 
-![$prefix$: number of reads per mean quality score]($prefix$.raw.prinseq-qa_qd3.png)
+![**$prefix$**: _number of reads per mean quality score_]($prefix$.raw.prinseq-qa_qd3.png)
 
-![$prefix$: quality scores per read position]($prefix$.raw.prinseq-qa_qd.png)
+![**$prefix$**: _quality scores per read position_]($prefix$.raw.prinseq-qa_qd2.png)
 
 \pagebreak
+
+![**$prefix$**: _quality scores per read position in %_]($prefix$.raw.prinseq-qa_qd.png)
+
+\pagebreak
+
+$endif$
+
+\pagebreak
+
+#### **$prefix$**: sequence composition analysis
+
+$if(paired_end)$
+
+![**$prefix$**: _number of sequences per GC content %_ - **forward** reads]($prefix$.raw.prinseq-qa_gc.png)
+
+![**$prefix$**: _number of sequences per GC content %_ - **reverse** reads]($prefix$.raw.prinseq-qa_gc-2.png)
+
+\clearpage
+
+![**$prefix$**: _dinucleotide odds ratio_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_or.png)
+
+![**$prefix$**: _number of sequences per duplicate count_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_df.png)
+
+![**$prefix$**: _number of duplicates per sequence??_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_dm.png)
+
+\clearpage
+
+![**$prefix$**: _number of sequences per entropy score_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_ce.png)
+
+![**$prefix$**: _number of sequences per DUST score_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_cd.png)
+
+\clearpage
+
+![**$prefix$**: _number of sequences per length_ - **forward** reads]($prefix$.raw.prinseq-qa_ld.png)
+
+![**$prefix$**: _number of sequences per length_ - **reverse** reads]($prefix$.raw.prinseq-qa_ld-2.png)
+
 
 $endif$
