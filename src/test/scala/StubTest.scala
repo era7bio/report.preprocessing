@@ -1,4 +1,6 @@
-package era7.preprocessing
+package era7.report.preprocessing
 
-class StubTest {
+class PrinseqTests {
+
+  
 }
