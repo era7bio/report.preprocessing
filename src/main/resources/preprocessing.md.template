@@ -1,30 +1,15 @@
 
-## Input data, quality analysis and reads preprocessing: $prefix$
+## Input data analysis: $prefix$
 
 Here we describe raw reads that were received from the sequencing provider $sequencing_provider$ on $data_reception_date$ as well as the following analysis:
 
 - quality analysis of the raw reads
+$if(preprocessed)$
 - reads preprocessing 
 - quality analysis of the processed reads
+$endif$
 
-### Input data: raw reads
-
-Input file names: 
-
-$for(input_file)$
-- `$input_file$`
-$endfor$
-
-
-- data received on: $data_reception_date$
-- sequencing provider: $sequencing_provider$
-- sequencing technology: $sequencing_technology$
-- reads type: $reads_type$
-- total number of reads: $total_number_reads$
-- total number of bases: $total_number_bases$
-
-
-## Quality analysis of input sequencing data
+#### Quality analysis of input sequencing data
 
 The quality analysis of the raw reads was done with [**Prinseq**](#prinseq-refs).
 
@@ -32,7 +17,8 @@ Results of the quality analysis are provided independently for each sample in a 
 
 A detailed explanation of the content of each field of the quality analysis can be found in the [prinseq manual](http://prinseq.sourceforge.net/manual.html#QC)
 
-## Reads preprocessing
+$if(preprocessed)$
+### Reads preprocessing
 
 The preprocessing of the reads was done with the tool Prinseq as follows:
 
@@ -42,10 +28,53 @@ The preprocessing of the reads was done with the tool Prinseq as follows:
 
 The processed reads of each sample are provided independently in `tar.gz` files.
 
-## Quality analysis of processed reads
+### Quality analysis of processed reads
 
 The quality of the processed reads was also analyzed using Prinseq. As with the quality analysis of the raw reads, the quality analysis of each sample is provided in independent `tar.gz` files.
+$endif$
 
-### References {#prinseq-refs}
+### $prefix$: input data description
 
-- _Schmieder R and Edwards R_: Quality control and preprocessing of metagenomic datasets. _Bioinformatics_ 2011, 27:863-864. [PMID: 21278185](http://www.ncbi.nlm.nih.gov/pubmed/21278185)
+- data received on: $data_reception_date$
+- sequencing provider: $sequencing_provider$
+- sequencing technology: $sequencing_technology$
+- reads type: $reads_type$
+- total number of reads: 
+
+  - `$filename_1$`: $total_number_reads_1$
+  - `$filename_2$`: $total_number_reads_2$
+
+- total number of bases:
+
+  - `$filename_1$`: $total_number_bases_1$
+  - `$filename_2$`: $total_number_bases_2$
+
+### $prefix$: quality analysis
+
+The following graphics display the distribution of quality scores across the sample.
+
+\pagebreak
+
+$if(paired_end)$
+
+![$prefix$: number of reads per mean quality score - forward reads]($prefix$.raw.prinseq-qa_qd3.png)
+
+![$prefix$: number of reads per mean quality score - reverse reads]($prefix$.raw.prinseq-qa_qd3-2.png)
+
+\pagebreak
+
+![$prefix$: quality scores per read position - forward reads]($prefix$.raw.prinseq-qa_qd.png)
+
+![$prefix$: quality scores per read position - reverse reads]($prefix$.raw.prinseq-qa_qd-2.png)
+
+\pagebreak
+
+$else$
+
+![$prefix$: number of reads per mean quality score]($prefix$.raw.prinseq-qa_qd3.png)
+
+![$prefix$: quality scores per read position]($prefix$.raw.prinseq-qa_qd.png)
+
+\pagebreak
+
+$endif$
