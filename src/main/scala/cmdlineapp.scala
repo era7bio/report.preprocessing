@@ -154,14 +154,50 @@ object Aux {
 
   def optionsFromPrinseqData(prinseq: PairedEndPrinseqOps): List[TemplateVar[PreprocessingTemplate.type]] = {
 
+    import era7.report.preprocessing.prinseq._
+
     val summary = prinseq.summary
+
+    val stats1 = prinseq.stats1
+    val gc1: GCStats = stats1._1
+    val length1: LengthStats = stats1._2
+    val ns1: NsStats = stats1._3
+
+    val stats2 = prinseq.stats2
+    val gc2: GCStats = stats2._1
+    val length2: LengthStats = stats2._2
+    val ns2: NsStats = stats2._3
 
     totalNumberReads1(summary.numseqs.toString)     ::
     totalNumberReads2(summary.numseqs2.toString)    ::
     totalNumberBases1(summary.numbases.toString)    ::
     totalNumberBases2(summary.numbases2.toString)   ::
     filename1(summary.filename1)                    ::
-    filename2(summary.filename2)                    :: Nil
+    filename2(summary.filename2)                    :: // Length:
+    meanLength1(length1.mean)                        ::
+    meanLength2(length2.mean)                        ::
+    lengthStd1(length1.std)                          ::
+    lengthStd2(length2.std)                          ::
+    lengthMode1(length1.mode)                        ::
+    lengthMode2(length2.mode)                        ::
+    lengthModeValue1(length1.modeval)                ::
+    lengthModeValue2(length2.modeval)                :: // Ns:
+    meanNs1(ns1.mean)                        ::
+    meanNs2(ns2.mean)                        ::
+    nsStd1(ns1.std)                          ::
+    nsStd2(ns2.std)                          ::
+    nsMode1(ns1.mode)                        ::
+    nsMode2(ns2.mode)                        ::
+    nsModeValue1(ns1.modeval)                ::
+    nsModeValue2(ns2.modeval)                :: // GC:
+    meanGC1(gc1.mean)                        ::
+    meanGC2(gc2.mean)                        ::
+    gcStd1(gc1.std)                          ::
+    gcStd2(gc2.std)                          ::
+    gcMode1(gc1.mode)                        ::
+    gcMode2(gc2.mode)                        ::
+    gcModeValue1(gc1.modeval)                ::
+    gcModeValue2(gc2.modeval)                :: Nil
   }
 
 

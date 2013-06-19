@@ -52,19 +52,29 @@ $endif$
   - `$filename_1$`: $total_number_bases_1$
   - `$filename_2$`: $total_number_bases_2$
 
+### **$prefix$** sequence length analysis
+
+Here we display basic information about the length distribution for each set of reads (forward and reverse).
+
+- **forward** reads: `$filename_1$`
+    
+  - **mean length**: $mean_length_1$ +/- $length_std_1$ (standard deviation)
+  - **length mode**: $length_mode_1$, with $length_mode_value_1$ sequences (of $total_number_reads_1$)
+
+- **reverse** reads: `$filename_2$`
+    
+  - **mean length**: $mean_length_2$ +/- $length_std_2$ (standard deviation)
+  - **length mode**: $length_mode_2$, with $length_mode_value_2$ sequences (of $total_number_reads_2$)
+
+![**$prefix$**: _number of sequences per length_ - **forward** reads]($prefix$.raw.prinseq-qa_ld.png)
+
+![**$prefix$**: _number of sequences per length_ - **reverse** reads]($prefix$.raw.prinseq-qa_ld-2.png)
+
+\clearpage
+  
 ### **$prefix$**: sequence quality analysis
 
-Quality analysis was done separetely for each set of reads (forward and reverse), thus allowing a direct comparison between the two sets. The following graphics display the distribution of quality scores across the sample.
-
-\pagebreak
-
 $if(paired_end)$
-
-![**$prefix$**: _number of reads per mean quality score_ - **forward** reads]($prefix$.raw.prinseq-qa_qd3.png)
-
-![**$prefix$**: _number of reads per mean quality score_ - **reverse** reads]($prefix$.raw.prinseq-qa_qd3-2.png)
-
-\pagebreak
 
 ![**$prefix$**: _quality scores per read position_ - **forward** reads]($prefix$.raw.prinseq-qa_qd2.png)
 
@@ -78,6 +88,25 @@ $if(paired_end)$
 
 \pagebreak
 
+![**$prefix$**: _number of reads per mean quality score_ - **forward** reads]($prefix$.raw.prinseq-qa_qd3.png)
+
+![**$prefix$**: _number of reads per mean quality score_ - **reverse** reads]($prefix$.raw.prinseq-qa_qd3-2.png)
+
+\clearpage
+
+### **$prefix$**: number of `N`s
+
+Here we display the number of sequences with a given percentage of `N`s, for each set of reads. 
+
+- **forward** reads: `$filename_1$`
+    
+  - **mean number of `N`s**: $mean_ns_1$ +/- $ns_std_1$ (standard deviation) _mean taken over reads containing at least one `N`_
+  - **number of `N`s mode**: $ns_mode_1$, with $ns_mode_value_1$ sequences (of $total_number_reads_1$)
+
+- **reverse** reads: `$filename_2$`
+    
+  - **mean number of `N`s**: $mean_ns_2$ +/- $ns_std_2$ (standard deviation) _mean taken over reads containing at least one `N`_
+  - **number of `N`s mode**: $ns_mode_2$, with $ns_mode_value_2$ sequences (of $total_number_reads_2$)
 
 ![**$prefix$**: _number of sequences per number of `N`s in %_ - **forward** reads]($prefix$.raw.prinseq-qa_ns.png)
 
@@ -99,9 +128,19 @@ $else$
 
 $endif$
 
-\pagebreak
+### **$prefix$**: GC content
 
-### **$prefix$**: sequence composition analysis
+Here we display the number of sequences for each GC content value.
+
+- **forward** reads: `$filename_1$`
+    
+  - **mean GC content**: $mean_gc_1$ +/- $gc_std_1$ (standard deviation)
+  - **GC content mode**: $gc_mode_1$, with $gc_mode_value_1$ sequences (of $total_number_reads_1$)
+
+- **reverse** reads: `$filename_2$`
+    
+  - **mean GC content**: $mean_gc_2$ +/- $gc_std_2$ (standard deviation)
+  - **GC content mode**: $gc_mode_2$, with $gc_mode_value_2$ sequences (of $total_number_reads_2$)
 
 $if(paired_end)$
 
@@ -111,6 +150,14 @@ $if(paired_end)$
 
 \clearpage
 
+### **$prefix$**: duplicates
+
+The graphics below display the distribution of exact duplicates across both forward and reverse reads:
+
+- number of sequences which have a given number of duplicates
+- 100 highest duplicate counts
+- per each read length, the total number of duplicates of that length
+
 ![**$prefix$**: _number of sequences per duplicate count_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_df.png)
 
 ![**$prefix$**: _number of duplicates for the 100 sequences with highest duplicate count_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_dm.png)
@@ -119,17 +166,15 @@ $if(paired_end)$
 
 \clearpage
 
+### **$prefix$**: complexity analysis
+
 ![**$prefix$**: _number of sequences per entropy score_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_ce.png)
 
 ![**$prefix$**: _number of sequences per DUST score_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_cd.png)
 
 \clearpage
 
-![**$prefix$**: _number of sequences per length_ - **forward** reads]($prefix$.raw.prinseq-qa_ld.png)
-
-![**$prefix$**: _number of sequences per length_ - **reverse** reads]($prefix$.raw.prinseq-qa_ld-2.png)
-
-\clearpage
+### **$prefix$**: dinucleotide composition analysis
 
 ![**$prefix$**: _dinucleotide odds ratio_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_or.png)
 
@@ -139,14 +184,16 @@ $if(paired_end)$
 
 \clearpage
 
-![**$prefix$**: _number of sequences per poly-A tail length (at read 3' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td3.png)
+### **$prefix$**: poly-A/T tails
 
-![**$prefix$**: _number of sequences per poly-A tail length (at read 3' end)_ - **reverse** reads]($prefix$.raw.prinseq-qa_td3-2.png)
+![**$prefix$**: _number of sequences per poly-A/T tail length (at read 3' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td3.png)
+
+![**$prefix$**: _number of sequences per poly-A/T tail length (at read 3' end)_ - **reverse** reads]($prefix$.raw.prinseq-qa_td3-2.png)
 
 \clearpage
 
-![**$prefix$**: _number of sequences per poly-A tail length (at read 5' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td5.png)
+![**$prefix$**: _number of sequences per poly-A/T tail length (at read 5' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td5.png)
 
-![**$prefix$**: _number of sequences per poly-A tail length (at read 5' end)_ - **reverse** reads]($prefix$.raw.prinseq-qa_td5-2.png)
+![**$prefix$**: _number of sequences per poly-A/T tail length (at read 5' end)_ - **reverse** reads]($prefix$.raw.prinseq-qa_td5-2.png)
 
 $endif$

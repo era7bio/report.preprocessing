@@ -20,22 +20,34 @@ object prinseq {
   )
 
   case class GCStats(
-    min: Int,
-    max: Int,
+    min: String,
+    max: String,
+    p25: String,
+    p75: String,
+    mode: String,
+    modeval: String,
     mean: String,
     std: String
   )
 
   case class LengthStats(
-    min: Int,
-    max: Int,
+    min: String,
+    max: String,
+    p25: String,
+    p75: String,
+    mode: String,
+    modeval: String,
     mean: String,
     std: String
   )
 
   case class NsStats(
-    min: Int,
-    max: Int,
+    min: String,
+    max: String,
+    p25: String,
+    p75: String,
+    mode: String,
+    modeval: String,
     mean: String,
     std: String
   )
