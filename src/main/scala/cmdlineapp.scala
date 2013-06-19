@@ -98,7 +98,7 @@ object Main {
     // read off template options
     val conf_opts = Aux.optionsFromConf(conf)
     // this should be something
-    val default_opts = pairedEnd("true") :: preprocessed("true") :: Nil
+    val default_opts = pairedEnd("true") :: preprocessed("") :: Nil
     val gd_opts = Aux.optionsFromPrinseqData(gdops)
 
     val pandoc_cmd = pandoc.applyTemplate(PreprocessingTemplate)(
