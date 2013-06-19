@@ -12,7 +12,7 @@ $if(preprocessed)$
 - quality analysis of the processed reads
 $endif$
 
-#### Quality analysis of input sequencing data
+### Quality analysis of input sequencing data
 
 The quality analysis of the raw reads was done with [**Prinseq**](#prinseq-refs).
 
@@ -52,9 +52,9 @@ $endif$
   - `$filename_1$`: $total_number_bases_1$
   - `$filename_2$`: $total_number_bases_2$
 
-#### **$prefix$**: quality analysis
+### **$prefix$**: sequence quality analysis
 
-The following graphics display the distribution of quality scores across the sample.
+Quality analysis was done separetely for each set of reads (forward and reverse), thus allowing a direct comparison between the two sets. The following graphics display the distribution of quality scores across the sample.
 
 \pagebreak
 
@@ -101,21 +101,21 @@ $endif$
 
 \pagebreak
 
-#### **$prefix$**: sequence composition analysis
+### **$prefix$**: sequence composition analysis
 
 $if(paired_end)$
 
-![**$prefix$**: _number of sequences per GC content %_ - **forward** reads]($prefix$.raw.prinseq-qa_gc.png)
+![**$prefix$**: _number of sequences per GC content_ - **forward** reads]($prefix$.raw.prinseq-qa_gc.png)
 
-![**$prefix$**: _number of sequences per GC content %_ - **reverse** reads]($prefix$.raw.prinseq-qa_gc-2.png)
+![**$prefix$**: _number of sequences per GC content_ - **reverse** reads]($prefix$.raw.prinseq-qa_gc-2.png)
 
 \clearpage
 
-![**$prefix$**: _dinucleotide odds ratio_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_or.png)
-
 ![**$prefix$**: _number of sequences per duplicate count_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_df.png)
 
-![**$prefix$**: _number of duplicates per sequence??_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_dm.png)
+![**$prefix$**: _number of duplicates for the 100 sequences with highest duplicate count_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_dm.png)
+
+![**$prefix$**: _total number of duplicates per sequence length_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_dl.png)
 
 \clearpage
 
@@ -129,5 +129,24 @@ $if(paired_end)$
 
 ![**$prefix$**: _number of sequences per length_ - **reverse** reads]($prefix$.raw.prinseq-qa_ld-2.png)
 
+\clearpage
+
+![**$prefix$**: _dinucleotide odds ratio_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_or.png)
+
+![**$prefix$**: _Principal components analysis (Microbial metagenomes)_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_pm.png)
+
+![**$prefix$**: _Principal components analysis (Viral metagenomes)_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_pv.png)
+
+\clearpage
+
+![**$prefix$**: _number of sequences per poly-A tail length (at read 3' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td3.png)
+
+![**$prefix$**: _number of sequences per poly-A tail length (at read 3' end)_ - **reverse** reads]($prefix$.raw.prinseq-qa_td3-2.png)
+
+\clearpage
+
+![**$prefix$**: _number of sequences per poly-A tail length (at read 5' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td5.png)
+
+![**$prefix$**: _number of sequences per poly-A tail length (at read 5' end)_ - **reverse** reads]($prefix$.raw.prinseq-qa_td5-2.png)
 
 $endif$
