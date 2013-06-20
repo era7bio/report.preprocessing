@@ -1,8 +1,10 @@
-% quality report
-% era7 bioinformatics
+% quality analysis report
+% sample `$prefix$`
 % 2013-06-18
 
-## Input data analysis: **$prefix$**
+\clearpage
+
+# Input data analysis: **$prefix$**
 
 Here we describe raw reads that were received from the sequencing provider $sequencing_provider$ on $data_reception_date$ as well as the following analysis:
 
@@ -12,7 +14,7 @@ $if(preprocessed)$
 - quality analysis of the processed reads
 $endif$
 
-### Quality analysis of input sequencing data
+## Quality analysis of input sequencing data
 
 The quality analysis of the raw reads was done with [**Prinseq**](#prinseq-refs).
 
@@ -21,7 +23,7 @@ Results of the quality analysis are provided independently for each sample in a 
 A detailed explanation of the content of each field of the quality analysis can be found in the [prinseq manual](http://prinseq.sourceforge.net/manual.html#QC)
 
 $if(preprocessed)$
-### Reads preprocessing
+## Reads preprocessing
 
 The preprocessing of the reads was done with the tool Prinseq as follows:
 
@@ -31,12 +33,12 @@ The preprocessing of the reads was done with the tool Prinseq as follows:
 
 The processed reads of each sample are provided independently in `tar.gz` files.
 
-### Quality analysis of processed reads
+## Quality analysis of processed reads
 
 The quality of the processed reads was also analyzed using Prinseq. As with the quality analysis of the raw reads, the quality analysis of each sample is provided in independent `tar.gz` files.
 $endif$
 
-### **$prefix$**: input data description
+## **$prefix$**: input data description
 
 - data received on: $data_reception_date$
 - sequencing provider: $sequencing_provider$
@@ -52,7 +54,9 @@ $endif$
   - `$filename_1$`: $total_number_bases_1$
   - `$filename_2$`: $total_number_bases_2$
 
-### **$prefix$** sequence length analysis
+\clearpage
+
+## **$prefix$** sequence length analysis
 
 Here we display basic information about the length distribution for each set of reads (forward and reverse).
 
@@ -72,7 +76,7 @@ Here we display basic information about the length distribution for each set of 
 
 \clearpage
   
-### **$prefix$**: sequence quality analysis
+## **$prefix$**: sequence quality analysis
 
 $if(paired_end)$
 
@@ -94,25 +98,23 @@ $if(paired_end)$
 
 \clearpage
 
-### **$prefix$**: number of `N`s
+## **$prefix$**: number of `N`s
 
-Here we display the number of sequences with a given percentage of `N`s, for each set of reads. 
+Here we display the number of sequences with a given percentage of `N`s, for each set of reads. _mean and mode below over reads containing at least one `N`_
 
 - **forward** reads: `$filename_1$`
     
-  - **mean number of `N`s**: $mean_ns_1$ +/- $ns_std_1$ (standard deviation) _mean taken over reads containing at least one `N`_
-  - **number of `N`s mode**: $ns_mode_1$, with $ns_mode_value_1$ sequences (of $total_number_reads_1$)
+  - **mean number of `N`s**: $mean_ns_1$ +/- $ns_std_1$ (standard deviation) 
+  - **number of `N`s mode**: $ns_mode_1$, with $ns_mode_value_1$ sequences 
 
 - **reverse** reads: `$filename_2$`
     
-  - **mean number of `N`s**: $mean_ns_2$ +/- $ns_std_2$ (standard deviation) _mean taken over reads containing at least one `N`_
-  - **number of `N`s mode**: $ns_mode_2$, with $ns_mode_value_2$ sequences (of $total_number_reads_2$)
+  - **mean number of `N`s**: $mean_ns_2$ +/- $ns_std_2$ (standard deviation)
+  - **number of `N`s mode**: $ns_mode_2$, with $ns_mode_value_2$ sequences 
 
 ![**$prefix$**: _number of sequences per number of `N`s in %_ - **forward** reads]($prefix$.raw.prinseq-qa_ns.png)
 
 ![**$prefix$**: _number of sequences per number of `N`s in %_ - **reverse** reads]($prefix$.raw.prinseq-qa_ns-2.png)
-
-\pagebreak
 
 $else$
 
@@ -128,7 +130,9 @@ $else$
 
 $endif$
 
-### **$prefix$**: GC content
+\clearpage
+
+## **$prefix$**: GC content
 
 Here we display the number of sequences for each GC content value.
 
@@ -150,7 +154,7 @@ $if(paired_end)$
 
 \clearpage
 
-### **$prefix$**: duplicates
+## **$prefix$**: duplicates
 
 The graphics below display the distribution of exact duplicates across both forward and reverse reads:
 
@@ -166,7 +170,7 @@ The graphics below display the distribution of exact duplicates across both forw
 
 \clearpage
 
-### **$prefix$**: complexity analysis
+## **$prefix$**: complexity analysis
 
 ![**$prefix$**: _number of sequences per entropy score_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_ce.png)
 
@@ -174,7 +178,7 @@ The graphics below display the distribution of exact duplicates across both forw
 
 \clearpage
 
-### **$prefix$**: dinucleotide composition analysis
+## **$prefix$**: dinucleotide composition analysis
 
 ![**$prefix$**: _dinucleotide odds ratio_ - **forward + reverse** reads]($prefix$.raw.prinseq-qa_or.png)
 
@@ -184,7 +188,7 @@ The graphics below display the distribution of exact duplicates across both forw
 
 \clearpage
 
-### **$prefix$**: poly-A/T tails
+## **$prefix$**: poly-A/T tails
 
 ![**$prefix$**: _number of sequences per poly-A/T tail length (at read 3' end)_ - **forward** reads]($prefix$.raw.prinseq-qa_td3.png)
 
