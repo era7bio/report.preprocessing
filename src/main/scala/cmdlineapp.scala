@@ -17,7 +17,7 @@ import IOConf._
 
 case class AppConf(arguments: Seq[String]) extends ScallopConf(arguments) {
 
-  version("preprocessing-report 0.3.5")
+  version("preprocessing-report 0.4.1")
 
   val prefix = opt[String](
     required = true, short = 'p',
